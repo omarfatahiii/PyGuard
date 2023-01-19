@@ -1,0 +1,15 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
+<footer class="py-4 mt-5 bg-dark">
+	<p class="text-center text-light fs-5">از کدنویسی لذت ببرید!</p>
+	<p class="text-center mb-3"><a href="{% url 'base:home' %}"><img src="{% static 'img/logo/logo.png' %}" width="45"
+				alt="PyGuard.ir"></a></p>
+	<p class="text-center text-muted lh-base">
+		کپی برداری بدون ذکر منبع
+		به <a class="text-light" href="https://www.dmca.com/" target="_blank">DMCA</a> گزارش داده خواهد شد.
+	</p>
+	<p class="text-center text-muted mb-0">
+		1401-1402 &copy;</p>
+</footer>

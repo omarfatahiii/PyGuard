@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+{% endblock link %}
+
+{% block title %}
+دسته بندی {{ list_child.title }}
+{% endblock title %}
+
+{% block content %}
+<h2 class="pb-2 text-center border-bottom" id="subject">دسته بندی <b>{{ list_child.title }}</b></h2>
+{% if list_child.post.all or list_child.course.all %}
+<h2 class="border-bottom mt-5 fs-3">مطالب</h2>
+<section class="wrapper">
+	<div class="container-fostrap">
+		<div class="content">
+			<div class="row">
+				{% for posts in list_child.post.all %}
+				<div class="col-xs-12 col-sm-4 px-1">
+					<div class="card">
+						<img src="{{ posts.thumbnail.url }}" class="img-card">
+						<div class="card-content">
+							<h4 class="card-title">
+								{{ posts.title }}
+							</h4>
+						</div>
+						<div class="card-read-more">
+							<a href="{% url 'post:detail_post' posts.id posts.slug %}" class="btn btn-link btn-block">
+								مشاهده
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+<h2 class="border-bottom fs-3">دوره ها</h2>
+
+<section class="wrapper">
+	<div class="container-fostrap">
+		<div class="content">
+			<div class="row">
+				{% for courses in list_child.course.all %}
+				<div class="col-xs-12 col-sm-4 px-1">
+					<div class="card">
+						<img src="{{ courses.thumbnail.url }}" class="img-card">
+						<div class="card-content">
+							<h4 class="card-title">
+								{{ courses.title }}
+							</h4>
+						</div>
+						<div class="card-read-more">
+							<a href="{% url 'course:detail_course' courses.id courses.slug %}"
+								class="btn btn-link btn-block">
+								مشاهده
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+{% else %}
+<div class="alert alert-dismissible bg-dark text-white fade show fs-5 text-center mb-5 rounded-0" role="alert">
+	هنوز مطلبی یا دوره‌ای برای این دسته بندی ایجاد نشده است!
+</div>
+{% endif %}
+
+{% endblock content %}

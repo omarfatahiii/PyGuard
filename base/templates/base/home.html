@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock link %}
+
+{% block content %}
+<h2 class="border-bottom fs-3">تازه ترین مطالب</h2>
+<section class="wrapper">
+	<div class="container-fostrap">
+		<div class="content">
+			<div class="row">
+				{% for posts in post %}
+				<div class="col-xs-12 col-sm-4 px-1">
+					<div class="card">
+						<img src="{{ posts.thumbnail.url }}" class="img-card">
+						<div class="card-content">
+							<h4 class="card-title">
+								{{ posts.title }}
+							</h4>
+						</div>
+						<div class="card-read-more">
+							<a href="{% url 'post:detail_post' posts.id posts.slug %}"
+								class="btn btn-link btn-block">
+								مشاهده
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+<h2 class="border-bottom fs-3">جدید ترین دوره ها</h2>
+<section class="wrapper">
+	<div class="container-fostrap">
+		<div class="content">
+			<div class="row">
+				{% for courses in course %}
+				<div class="col-xs-12 col-sm-4 px-1">
+					<div class="card">
+						<img src="{{ courses.thumbnail.url }}" class="img-card">
+						<div class="card-content">
+							<h4 class="card-title">
+								{{ courses.title }}
+							</h4>
+						</div>
+						<div class="card-read-more">
+							<a href="{% url 'course:detail_course' courses.id courses.slug %}"
+								class="btn btn-link btn-block">
+								مشاهده
+							</a>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+<h2 class="border-bottom fs-3">سوالات متداول</h2>
+<div class="col mb-5 mt-5">
+	<div class="bd-example">
+		<div class="accordion" id="accordionExample">
+			<div class="accordion-item rounded-0">
+				<h4 class="accordion-header" id="headingOne">
+					<button class="accordion-button collapsed rounded-0" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+						آیا آموزش ها از طریق "منبع اصلی" هستند؟
+					</button>
+				</h4>
+				<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body" style="text-align: justify;">
+						تمامی آموزش هایی که از سایت دیگر ترجمه شده اند، از منابع اصلی، معتبر و رتبه برتر موتورهای جستجو با رعایت کامل حقوق کپی رایت (درج مسیر منبع) هستند.
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item rounded-0">
+				<h4 class="accordion-header" id="headingfour">
+					<button class="accordion-button collapsed rounded-0" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapsefour" aria-expanded="false" aria-controls="collapsefour">
+						منظور از "اشتراک ویژه" در سایت چیست؟
+					</button>
+				</h4>
+				<div id="collapsefour" class="accordion-collapse collapse" aria-labelledby="headingfour"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body" style="text-align: justify;">
+						اگر قصد دریافت دوره ای (غیر رایگان) را داشته باشید
+						شما با خرید <a href="{% url 'account:subscription' %}">اشتراک ویژه</a> یک ماهه می توانید به دوره
+						مدنظرتان، حتی تمامی دوره های
+						سایت
+						دسترسی آزاد داشته باشید.
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item rounded-0">
+				<h4 class="accordion-header" id="headingfive">
+					<button class="accordion-button collapsed rounded-0" type="button" data-bs-toggle="collapse"
+						data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">
+						آیا "حق کپی‌رایت" در سایت رعایت می‌شود؟
+					</button>
+				</h4>
+				<div id="collapsefive" class="accordion-collapse collapse" aria-labelledby="headingfive"
+					data-bs-parent="#accordionExample">
+					<div class="accordion-body" style="text-align: justify;">
+						شما میتوانید <a href="{% url 'base:referenc' %}">منابع</a> استفاده شده در سایت را مشاهده کنید.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

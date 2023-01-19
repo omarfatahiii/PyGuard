@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/parent.css' %}">
+{% endblock link %}
+
+{% block title %}
+دسته بندی ها | پایگارد
+{% endblock title %}
+
+{% block content %}
+
+{% if list_parent %}
+<div class="col mt-5">
+    {% for parent in list_parent %}
+    <div class="card mb-5 rounded-0">
+        <div class="card-body bg-dark text-white">
+            <h3 class="card-title text-center">{{ parent.title }}</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for child in parent.child.all %}
+            <li class="list-group-item">
+                <a href="{% url 'category:list_child' child.slug %}">{{ child.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="alert alert-dismissible bg-dark text-white fade show fs-5 text-center mb-5 rounded-0" role="alert">
+    هنوز دسته بندی در سایت ایجاد نشده است!
+</div>
+{% endif %}
+
+
+{% endblock content %}

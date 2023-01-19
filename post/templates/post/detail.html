@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load commentPost %}
+
+{% block title %}
+{{ detail_post.title }} | پایگارد
+{% endblock title %}
+
+{% block content %}
+<post itemscope itemtype="http://schema.org/post">
+  <meta itemprop="publisher" content="pyguard.ir">
+  <meta itemprop="datePublished" content="{{ detail_post.published }}">
+  <meta itemprop="dateModified" content="{{ detail_post.updated }}">
+
+  <h1 class="text-center mb-5 text-primary">| <span class="text-dark" itemprop="name">{{ detail_post.title }}</span>
+    |<br>
+  </h1>
+  <div class="bd-example my-3 ">
+    <nav>
+      <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+        <button class="nav-link active rounded-0" id="nav-detail-tab" data-bs-toggle="tab" data-bs-target="#nav-detail"
+          type="button" role="tab" aria-controls="nav-detail" aria-selected="true">توضیحات</button>
+        <button class="nav-link rounded-0" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info"
+          type="button" role="tab" aria-controls="nav-info" aria-selected="false">اطلاعات</button>
+        <button class="nav-link rounded-0" id="nav-comment-tab" data-bs-toggle="tab" data-bs-target="#nav-comment"
+          type="button" role="tab" aria-controls="nav-comment" aria-selected="false">دیدگاه</button>
+      </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+      <div class="tab-pane fade show active mb-5" style="text-align: justify;" id="nav-detail" role="tabpanel"
+        aria-labelledby="nav-detail-tab">
+        <p class="px-3" style="text-align: justify;">{{ detail_post.content|safe|linebreaksbr|urlize }}</p>
+      </div>
+      <div class="tab-pane fade mb-5" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+        <div class="bd-example">
+          <table class="table table-white table-sm table-bordered text-center">
+            <thead>
+              <tr>
+                <th>ایجاد شده‌ی</th>
+                <th>بروز شده‌ی</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ detail_post.published|date:'Y/m/d' }}</td>
+                <td>{{ detail_post.updated|date:'Y/m/d' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="nav-comment" role="tabpanel" aria-labelledby="nav-comment-tab">
+        {% commentTag comment reply form request %}
+      </div>
+    </div>
+  </div>
+</post>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{
+    "app": "pyguard",
+    "disks": [
+        {
+            "name": "pyguard-db",
+            "mountTo": "database"
+        },
+        {
+            "name": "media",
+            "mountTo": "media"
+        }
+    ]
+}

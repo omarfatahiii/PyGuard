@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+پایگارد | نتیجه پرداخت
+{% endblock title %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 mb-3 align-items-center text-center d-flex justify-content-center">
+    <div class="col">
+        <div class="card mb-4 rounded-0 shadow-sm border-dark">
+            <div class="card-header py-3 rounded-0 border-dark text-bg-dark">
+                <h4 class="my-0 fw-normal">شما عضو ویژه هستید!</h4>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title text-center">پرداخت با موفقیت انجام شد!</h3>
+                <p class="card-text text-center fs-6">خرید اشتراک ویژه با موفقیت انجام شد از این به بعد شما می توانید
+                    تمامی دوره
+                    ها را بدون محدودیت مشاهده کنید.
+                </p>
+            </div>
+            <a href="{% url 'base:home' %}" class="btn btn-dark text-center rounded-0">رفتن به صفحه اصلی</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

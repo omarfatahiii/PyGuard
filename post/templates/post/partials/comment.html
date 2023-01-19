@@ -1,0 +1,60 @@
+<post itemscope itemtype="http://schema.org/post">
+  <section itemprop="comment">
+    {% if request.user.is_authenticated %}
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input type="hidden" name="next" value="{{ request.path }}">
+      <input class="btn btn-dark rounded-0 mt-3 mb-5" type="submit" value="ارسال دیدگاه">
+    </form>
+    <p class="text-center fs-4" itemprop="commentCount">{{ comment.count }} دیدگاه</p>
+    <hr>
+    {% for comments in comment %}
+    <div class="card mb-3 rounded-0">
+      <div class="card-body">
+        <h5 class="card-title">{{ comments.user.get_full_name }}</h5>
+        <h6 class="card-subtitle mb-3 text-muted">{{ comments.published|timesince }}</h6>
+        <div class="card-text">
+          {{ comments.content|linebreaksbr }}
+          {% if comments.post_reply.all %}
+          <hr>
+          {% for reply in comments.post_reply.all %}
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item rounded-0">
+              <h4 class="accordion-header" id="headingOne{{ reply.id }}">
+                <button class="accordion-button collapsed rounded-0" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne{{ reply.id }}" aria-expanded="false"
+                  aria-controls="collapseOne{{ reply.id }}">
+                  <div class="container d-flex justify-content-between flex-wrap">
+                    <strong>
+                      {% if reply.user.is_superuser %}##{% endif %}
+                      {{ reply.user.get_full_name }}
+                    </strong>
+                    <strong>{{ reply.published|timesince }}</strong>
+                  </div>
+                </button>
+              </h4>
+              <div id="collapseOne{{ reply.id }}" class="accordion-collapse collapse"
+                aria-labelledby="headingOne{{ reply.id }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body" style="text-align: justify;">
+                  {{ reply.content|linebreaksbr }}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-danger text-center rounded-0 alert-dismissible fade show" role="alert">
+      فراگیر محترم با عرض پوزش! برای نظر دادن به این دوره یا دوره های دیگر باید <a
+        href="{% url 'account:login' %}?next={{ request.path }}">وارد</a> شوید. اگر حساب
+      کاربری ندارید،
+      باید <a href="{% url 'account:register' %}">ثبت‌ نام</a> کنید.
+    </div>
+    {% endif %}
+  </section>
+</post>

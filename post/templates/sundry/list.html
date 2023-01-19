@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cardSundry %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+{% endblock link %}
+
+{% block title %}
+متفرقه | پایگارد
+{% endblock title %}
+
+{% block content %}
+{% if sundry %}
+{% cardTag sundry %}
+{% else %}
+<div class="alert alert-dismissible bg-dark text-white fade show fs-5 text-center mb-5 rounded-0" role="alert">
+	هنوز مطلبی متفرقه در سایت ایجاد نشده است!
+</div>
+{% endif %}
+
+{% if sundry.has_other_pages %}
+<nav>
+	<ul class="pagination justify-content-center">
+		{% if sundry.has_previous %}
+		<li class="page-item">
+			<a class="page-link rounded-0" href="?p={{ sundry.previous_page_number }}" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+		{% else %}
+		<li class="page-item disabled">
+			<span class="page-link rounded-0" aria-hidden="true">&laquo;</span>
+		</li>
+		{% endif %}
+
+		{% for p in sundry.paginator.page_range %}
+		{% if sundry.number == p %}
+		<li class="page-item"><a class="page-link disabled" style="color: red;" href="#">{{ p }}</a></li>
+		{% else %}
+		<li class="page-item"><a class="page-link" href="?p={{ p }}">{{ p }}</a></li>
+		{% endif %}
+		{% endfor %}
+
+		{% if sundry.has_next %}
+		<li class="page-item">
+			<a class="page-link rounded-0" href="?p={{ sundry.next_page_number }}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+		{% else %}
+		<li class="page-item disabled">
+			<span class="page-link rounded-0" aria-hidden="true">&raquo;</span>
+		</li>
+		{% endif %}
+	</ul>
+</nav>
+{% endif %}
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+منابع | پایگارد
+{% endblock title %}
+
+{% block content %}
+<div class="mt-5 mb-5 text-center table-responsive" dir="ltr">
+  <h3 class="text-center mb-5">منابع استفاده شده در سایت</h3>
+  <table class="table table-dark table-striped table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>عنوان</th>
+        <th>آدرس صفحه</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      {% for reference in references %}
+      <tr class="table-active">
+        <td>{{ reference.title }}</td>
+        <td><a href="{{ reference.referenc_page }}">{{ reference.referenc_page }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

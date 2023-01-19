@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+پایگارد | ثبت نام
+{% endblock title %}
+
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <h1 class="text-center mb-5 mt-5">ثبت نام در وب‌سایت</h1>
+
+    <div class="form-floating">
+        <input class="form-control rounded-0 mt-2" type="text" name="first_name" required id="id_first_name">
+        <label for="id_first_name">نام </label>
+    </div>
+
+    <div class="form-floating">
+        <input name="last_name" required id="id_last_name" class="form-control rounded-0 mt-2" type="text">
+        <label for="id_last_name">نام خانوادگی</label>
+    </div>
+
+    <div class="form-floating">
+        <input class="form-control rounded-0 mt-2" type="text" name="username" required id="id_username">
+        <label for="id_username">نام کاربری</label>
+    </div>
+
+    <div class="form-floating">
+        <input name="email" required id="id_email" class="form-control rounded-0 mt-2" type="email">
+        <label for="id_email">آدرس ایمیل</label>
+    </div>
+
+    <div class="form-floating">
+        <input class="form-control rounded-0 mt-2" type="password" name="password1" required id="id_password1">
+        <label for="id_password1">رمز عبور</label>
+    </div>
+
+    <div class="form-floating">
+        <input name="password2" required id="id_password2" class="form-control rounded-0 mt-2" type="password">
+        <label for="id_password2">تکرار رمز عبور</label>
+    </div>
+
+    <button class="btn btn-dark rounded-0 mb-5 mt-5" type="submit" name="submit">ثبت نام در سایت</button>
+    {{ form.errors }}
+</form>
+{% endblock content %}

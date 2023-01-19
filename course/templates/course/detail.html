@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load commentCourse %}
+
+{% block title %}
+{{ detail_course.title }} | پایگارد
+{% endblock title %}
+
+{% block content %}
+<h1 class="text-center mb-5 text-primary">| <span class="text-dark">{{ detail_course.title }}</span> |<br>
+  <span class="text-center mb-5 text-dark fs-6">{{ detail_course.description }}</span>
+</h1>
+<div class="bd-example my-3 ">
+  <nav>
+    <div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
+      <button class="nav-link active rounded-0" id="nav-detail-tab" data-bs-toggle="tab" data-bs-target="#nav-detail"
+        type="button" role="tab" aria-controls="nav-detail" aria-selected="true">توضیحات</button>
+      <button class="nav-link rounded-0" id="nav-info-tab" data-bs-toggle="tab" data-bs-target="#nav-info" type="button"
+        role="tab" aria-controls="nav-info" aria-selected="false">اطلاعات</button>
+      <button class="nav-link rounded-0" id="nav-part-tab" data-bs-toggle="tab" data-bs-target="#nav-part" type="button"
+        role="tab" aria-controls="nav-part" aria-selected="false">قسمت‌ها</button>
+      <button class="nav-link rounded-0" id="nav-comment-tab" data-bs-toggle="tab" data-bs-target="#nav-comment"
+        type="button" role="tab" aria-controls="nav-comment" aria-selected="false">نظرات</button>
+    </div>
+  </nav>
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active mb-5" style="text-align: justify;" id="nav-detail" role="tabpanel"
+      aria-labelledby="nav-detail-tab">
+      <p class="px-3" style="text-align: justify;">{{ detail_course.content|safe|linebreaksbr|urlize }}</p>
+    </div>
+    <div class="tab-pane fade mb-5" id="nav-info" role="tabpanel" aria-labelledby="nav-info-tab">
+      <div class="bd-example">
+        <table class="table table-white table-sm table-bordered text-center">
+          <thead>
+            <tr>
+              <th>بروز شده‌ی</th>
+              <th>قسمت</th>
+              <th>وضعیت</th>
+              <th>هزینه دوره<sup>تومان</sup></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ detail_course.updated|date:'Y/m/d' }}</td>
+              <td>{{ detail_course.property.count }}</td>
+              <td>
+                {% if detail_course.completed == True %}
+                به اتمام رسیده
+                {% else %}
+                درحال برگزاری
+                {% endif %}
+              </td>
+              <td>
+                {{ detail_course.price|intcomma }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-part" role="tabpanel" aria-labelledby="nav-part-tab">
+      <div class="col mb-5 mt-5">
+        <div class="bd-example">
+          {% for property in detail_course.property.all %}
+          <div class="accordion" id="accordionExample">
+            <div class="accordion-item rounded-0 mb-2">
+              <h4 class="accordion-header" id="heading{{ property.part }}">
+                <button class="accordion-button collapsed rounded-0" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{ property.part }}" aria-expanded="false"
+                  aria-controls="collapse{{ property.part }}">
+
+                  {% if detail_course.free == True %}
+                  <span class="badge bg-dark m-2 rounded-0">رایگان</span>
+                  <span class="badge bg-dark m-2 rounded-0">{{ property.part }}</span>{{ property.title }}
+                  {% else %}
+                  {% if property.free == True %}
+                  <span class="badge bg-dark m-2 rounded-0">رایگان</span>
+                  <span class="badge bg-dark m-2 rounded-0">{{ property.part }}</span>{{ property.title }}
+                  {% else %}
+                  
+                  {% if user.is_special %}
+                  <span class="badge bg-dark m-2 rounded-0">آزاد</span>
+                  <span class="badge bg-dark m-2 rounded-0">{{ property.part }}</span>{{ property.title }}
+                  {% else %}
+                  <span class="badge bg-dark m-2 rounded-0">{{ property.part }}</span>{{ property.title }}
+                  {% endif %}
+                  {% endif %}
+                  {% endif %}
+                </button>
+              </h4>
+              <div id="collapse{{ property.part }}" class="accordion-collapse collapse"
+                aria-labelledby="heading{{ property.part }}" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  {% if not user.is_authenticated %}
+                  <div class="alert alert-danger text-center rounded-0 alert-dismissible fade show" role="alert">
+                    فراگیر محترم با عرض پوزش! برای مشاهده این قسمت یا قسمت های دیگر باید <a
+                      href="{% url 'account:login' %}?next={{ request.path }}">وارد</a> شوید. اگر حساب
+                    کاربری ندارید،
+                    باید <a href="{% url 'account:register' %}">ثبت‌ نام</a> کنید.
+                  </div>
+                  {% else %}
+                  {% if detail_course.free == True or property.free == True or user.is_special or user.is_authenticated %}
+                  <video width="100%" height="auto" controls>
+                    <source src="{{ property.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                  <p class="bg-dark text-light text-center p-2">اگر ویدیو بارگزاری نشد، میتوانید آنرا دانلود کنید.</p>
+                  <div
+                    class="row row-cols-1 row-cols-md-3 mb-3 align-items-center text-center d-flex justify-content-center">
+                    <a class="btn btn-dark rounded-0" href="{{ property.url }}">دانلود "{{ property.title }}"</a>
+                  </div>
+                  {% else %}
+                  <div class="alert alert-danger text-center rounded-0 alert-dismissible fade show" role="alert">
+                    با احترام! این دوره رایگان نیست، برای استفاده و دانلود دوره باید <a
+                      href="{% url 'account:subscription' %}">اشتراک ویژه</a> داشته باشید.
+                  </div>
+                  {% endif %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="nav-comment" role="tabpanel" aria-labelledby="nav-comment-tab">
+      {% commentTag comment reply form request %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

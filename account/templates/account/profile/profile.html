@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+حساب کاربری | پایگارد
+{% endblock title %}
+
+{% block content %}
+<div class="card mb-5 mt-5 rounded-0">
+	<div class="card-body text-center">
+		<h3 class="card-title">حساب کاربری </h3>
+		<h5 class="card-subtitle mb-2 text-muted">{{ user.get_full_name }}</h5>
+
+		<div class="input-group rounded-0 mb-4 mt-4">
+			<span class="input-group-text rounded-0 bg-white" id="inputGroup-sizing-default">نام</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default" value="{{ user.first_name }}" disabled>
+		</div>
+
+		<div class="input-group rounded-0 mb-4">
+			<span class="input-group-text rounded-0 bg-white" id="inputGroup-sizing-default">نام خانوادگی</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default" value="{{ user.last_name }}" disabled>
+		</div>
+
+		<div class="input-group mb-4">
+			<span class="input-group-text rounded-0 bg-white" id="inputGroup-sizing-default">نام کاربری</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default" value="{{ user.username }}" disabled>
+		</div>
+
+		<div class="input-group mb-4 rounded-0">
+			<span class="input-group-text bg-white rounded-0" id="inputGroup-sizing-default">آدرس ایمیل</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default" value="{{ user.email }}" disabled>
+		</div>
+
+		<div class="input-group mb-4">
+			<span class="input-group-text rounded-0 bg-white" id="inputGroup-sizing-default">وضعیت اشتراک ویژه</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default"
+				value="{% if user.is_special == True %}فعال{% else %}غیرفعال{% endif %}" disabled>
+		</div>
+
+		<div class="input-group mb-4">
+			<span class="input-group-text bg-white rounded-0" id="inputGroup-sizing-default">زمان اشتراک ویژه</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default"
+				value="{% if user.is_special == True %}{{ user.special|date:'Y/m/d-H:i:s' }}{% else %}----------{% endif %}"
+				disabled>
+		</div>
+
+		{% if user.is_special == True %}
+		<div class="input-group mb-4">
+			<span class="input-group-text rounded-0 bg-white" id="inputGroup-sizing-default">امروز</span>
+			<input type="text" class="form-control rounded-0 bg-dark text-white" aria-label="Sizing example input"
+				aria-describedby="inputGroup-sizing-default" value="{{ today|date:'Y/m/d-H:i:s' }}" disabled>
+		</div>
+		{% else %}
+		{% if user.is_authenticated %}
+		<a href="{% url 'account:subscription' %}" class="btn btn-dark rounded-0">خرید اشتراک ویژه</a>
+		{% else %}
+		<a href="{% url 'account:login' %}?next={{ request.path }}" class="btn btn-dark rounded-0">خرید اشتراک ویژه</a>
+		{% endif %}
+		{% endif %}
+	</div>
+</div>
+{% endblock content %}

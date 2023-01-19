@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}
+خرید اشتراک ویژه | پایگارد
+{% endblock title %}
+
+
+{% block content %}
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1>اشتراک ویژه</h1>
+</div>
+<div class="row row-cols-1 row-cols-md-3 mb-3 align-items-center text-center d-flex justify-content-center">
+    <div class="col">
+        <div class="card mb-4 rounded-0 shadow-sm border-dark">
+            <div class="card-header py-3 rounded-0 border-dark text-bg-dark">
+                <h4 class="my-0 fw-normal">ویژه</h4>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title pricing-card-title">125,000تومان
+                    <br><small class="text-muted fw-light">ماهانه</small>
+                </h1>
+                <h6 class="card-subtitle mt-4 text-muted fs-5">دسترسی به تمام دوره ها</h6>
+            </div>
+            <a href="{% url 'account:payment' %}" class="w-100 btn btn-lg btn-dark rounded-0">خرید اشتراک</a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

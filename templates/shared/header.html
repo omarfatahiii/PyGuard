@@ -1,0 +1,98 @@
+{% load static %}
+
+<!-- <div class="bg-primary text-light p-1">
+	<div class="container ">
+		<h5 class="py-2 text-center">تا اطلاع بعدی تمامی دوره های
+			 پایگارد به صورت رایگان ارائه می شود.</h5>
+	</div>
+</div> -->
+<nav class="bg-light border-bottom">
+	<div class="container d-flex justify-content-between flex-wrap">
+		<ul class="nav">
+			{% if user.is_authenticated %}
+			<li class="nav-item"><a class="nav-link link-dark px-2">{{ user.get_full_name }}</a></li>
+			{% else %}
+			<li class="nav-item"><a class="nav-link link-dark px-2">کاربر مهمان خوش آمدید!</a></li>
+			{% endif %}
+		</ul>
+		<ul class="nav">
+
+			<li class="nav-item">
+				<a href="{% url 'account:profile' %}" class="nav-link link-dark px-2">
+					عضویت ویژه
+					{% if user.is_special == True %}
+					فعال
+					{% else %}
+					غیرفعال
+					{% endif %}
+				</a>
+			</li>
+		</ul>
+		<ul class="nav">
+			{% if user.is_authenticated %}
+			<li class="nav-item"><a href="{% url 'account:logout' %}" class="nav-link link-dark px-2">خروج</a></li>
+			{% else %}
+			<li class="nav-item"><a href="{% url 'account:login' %}" class="nav-link link-dark px-2">ورود</a></li>
+			<li class="nav-item"><a class="nav-link link-dark px-2">|</a></li>
+			<li class="nav-item"><a href="{% url 'account:register' %}" class="nav-link link-dark px-2">ثبت نام</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top" aria-label="Fourth navbar example">
+	<div class="container" itemscope itemtype="https://schema.org/Hotel">
+		<a href="{% url 'base:home' %}" class="navbar-brand fs-4">
+			<img itemprop="logo" src="{% static 'img/logo/logo.png' %}" width="40" alt="PyGuard.ir">
+		</a>
+
+		<button class="navbar-toggler rounded-0" type="button" data-bs-toggle="collapse"
+			data-bs-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent2">
+			<ul class="navbar-nav me-auto mb-lg-0">
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'base:home' %}">صفحه اصلی</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'category:list_parent' %}">دسته بندی</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'post:list_post' %}">مطلب</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'course:list_course' %}">دوره</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'base:referenc' %}">منابع</a>
+				</li>
+				{% if user.is_authenticated %}
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="{% url 'account:profile' %}">حساب کاربری</a>
+				</li>
+				{% endif %}
+
+				{% if user.is_superuser or user.is_staff %}
+				<li class="nav-item">
+					<a class="nav-link" aria-current="page" href="/sys/managment/admin">پنل ادمین</a>
+				</li>
+				{% endif %}
+
+			</ul>
+		</div>
+	</div>
+
+</nav>
+
+<header class="py-2 mb-5 border-bottom bg-dark text-white">
+	<div class="container d-flex flex-wrap justify-content-center">
+		<p class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-decoration-none">
+			<span class="fs-6"></span>
+			<span>پـایگــارد</span>، مرجع تخصصی پایتون!
+			</span>
+		</p>
+	</div>
+</header>

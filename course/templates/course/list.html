@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load cardCourse %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+{% endblock link %}
+
+{% block title %}
+دوره ها | پایگارد
+{% endblock title %}
+
+{% block content %}
+{% if course %}
+{% cardTag course %}
+{% else %}
+<div class="alert alert-dismissible bg-dark text-white fade show fs-5 text-center mb-5 rounded-0" role="alert">
+    هنوز دروه ای در سایت برگزار نوشته نشده است!
+</div>
+{% endif %}
+
+{% if course.has_other_pages %}
+<nav>
+    <ul class="pagination justify-content-center">
+        {% if course.has_previous %}
+        <li class="page-item">
+            <a class="page-link rounded-0" href="?p={{ course.previous_page_number }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-0" aria-hidden="true">&laquo;</span>
+        </li>
+        {% endif %}
+
+        {% for p in course.paginator.page_range %}
+        {% if course.number == p %}
+        <li class="page-item"><a class="page-link disabled" style="color: red;" href="#">{{ p }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?p={{ p }}">{{ p }}</a></li>
+        {% endif %}
+        {% endfor %}
+
+        {% if course.has_next %}
+        <li class="page-item">
+            <a class="page-link rounded-0" href="?p={{ course.next_page_number }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-0" aria-hidden="true">&raquo;</span>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock content %}
